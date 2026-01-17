@@ -1,283 +1,43 @@
-// let allStudents = [];
-// let allComplaints = [];
-
-// document.addEventListener('DOMContentLoaded', () => {
-//     loadStudents();
-//     loadComplaints();
-// });
-
-// async function loadStudents() {
-//     try {
-//         const response = await fetch('/api/admin/students');
-//         const data = await response.json();
-        
-//         if (data.success) {
-//             allStudents = data.students;
-//             updateAdminStats();
-//             displayStudents();
-//         }
-//     } catch (error) {
-//         console.error('Error loading students:', error);
-//     }
-// }
-
-// async function loadComplaints() {
-//     try {
-//         const response = await fetch('/api/admin/complaints');
-//         const data = await response.json();
-        
-//         if (data.success) {
-//             allComplaints = data.complaints;
-//             updateAdminStats();
-//             displayRecentComplaintsAdmin();
-//             displayAllComplaintsAdmin();
-//         }
-//     } catch (error) {
-//         console.error('Error loading complaints:', error);
-//     }
-// }
-
-// function updateAdminStats() {
-//     document.getElementById('totalStudents').textContent = allStudents.length;
-//     document.getElementById('totalComplaintsAdmin').textContent = allComplaints.length;
-    
-//     const pending = allComplaints.filter(c => c.status === 'Pending').length;
-//     const resolved = allComplaints.filter(c => c.status === 'Resolved').length;
-    
-//     document.getElementById('pendingComplaintsAdmin').textContent = pending;
-//     document.getElementById('resolvedComplaintsAdmin').textContent = resolved;
-// }
-
-// function displayStudents() {
-//     const tbody = document.getElementById('studentsTableBody');
-    
-//     if (allStudents.length === 0) {
-//         tbody.innerHTML = '<tr><td colspan="7">No students registered yet.</td></tr>';
-//         return;
-//     }
-    
-//     tbody.innerHTML = allStudents.map(student => `
-//         <tr>
-//             <td>${student.student_id}</td>
-//             <td>${student.full_name}</td>
-//             <td>${student.email}</td>
-//             <td>${student.department || 'N/A'}</td>
-//             <td>${student.course || 'N/A'} - ${student.year_of_study || 'N/A'}</td>
-//             <td>${student.identity_type || 'Student'}</td>
-//             <td>${new Date(student.registration_date).toLocaleDateString()}</td>
-//         </tr>
-//     `).join('');
-// }
-
-// function displayRecentComplaintsAdmin() {
-//     const container = document.getElementById('recentComplaintsAdmin');
-//     const recent = allComplaints.slice(0, 5);
-    
-//     if (recent.length === 0) {
-//         container.innerHTML = '<p>No complaints submitted yet.</p>';
-//         return;
-//     }
-    
-//     container.innerHTML = recent.map(complaint => createAdminComplaintCard(complaint, true)).join('');
-// }
-
-// function displayAllComplaintsAdmin() {
-//     const container = document.getElementById('complaintsListAdmin');
-    
-//     if (allComplaints.length === 0) {
-//         container.innerHTML = '<p>No complaints submitted yet.</p>';
-//         return;
-//     }
-    
-//     container.innerHTML = allComplaints.map(complaint => createAdminComplaintCard(complaint, false)).join('');
-// }
-
-// function createAdminComplaintCard(complaint, isRecent) {
-//     const statusClass = `status-${complaint.status.toLowerCase().replace(' ', '-')}`;
-//     const priorityClass = `priority-${complaint.priority.toLowerCase()}`;
-    
-//     return `
-//         <div class="complaint-card">
-//             <div class="complaint-header">
-//                 <div>
-//                     <h3>${complaint.complaint_title}</h3>
-//                     <span class="complaint-type">${complaint.category_type}</span>
-//                 </div>
-//             </div>
-//             <div class="complaint-meta">
-//                 <span><strong>Student:</strong> ${complaint.student_name} (${complaint.student_id})</span>
-//                 <span><strong>Identity:</strong> ${complaint.identity_type}</span>
-//                 <span><strong>Email:</strong> ${complaint.student_email}</span>
-//             </div>
-//             <div class="complaint-meta">
-//                 <span><strong>Department:</strong> ${complaint.department}</span>
-//             </div>
-//             <div class="complaint-meta">
-//                 <span><strong>Type:</strong> ${complaint.complaint_type}</span>
-//                 <span><strong>Mode:</strong> ${complaint.complaint_mode}</span>
-//             </div>
-//             <div class="complaint-meta">
-//                 <span><strong>Status:</strong> <span class="status-badge ${statusClass}">${complaint.status}</span></span>
-//                 <span><strong>Priority:</strong> <span class="priority-badge ${priorityClass}">${complaint.priority}</span></span>
-//                 <span><strong>Date:</strong> ${new Date(complaint.submission_date).toLocaleDateString()}</span>
-//             </div>
-//             <div class="complaint-description">
-//                 <strong>Description:</strong><br>
-//                 ${complaint.detailed_description}
-//             </div>
-//             ${complaint.proof_file_path ? `
-//                 <div style="margin-top: 1rem;">
-//                     <strong>Attached Proof:</strong> 
-//                     <a href="${complaint.proof_file_path}" target="_blank" style="color: var(--secondary-blue);">View Document</a>
-//                 </div>
-//             ` : ''}
-//             ${complaint.admin_response ? `
-//                 <div class="complaint-response">
-//                     <h4>Your Response:</h4>
-//                     <p>${complaint.admin_response}</p>
-//                     <small>Responded on: ${new Date(complaint.response_date).toLocaleDateString()}</small>
-//                 </div>
-//             ` : ''}
-//             <div class="complaint-actions">
-//                 <button class="btn btn-primary btn-small" onclick="openResponseModal(${complaint.id})">
-//                     ${complaint.admin_response ? 'Update Response' : 'Respond'}
-//                 </button>
-//             </div>
-//         </div>
-//     `;
-// }
-
-// function openResponseModal(complaintId) {
-//     const complaint = allComplaints.find(c => c.id === complaintId);
-//     if (!complaint) return;
-    
-//     document.getElementById('complaintId').value = complaint.id;
-//     document.getElementById('status').value = complaint.status;
-//     document.getElementById('response').value = complaint.admin_response || '';
-    
-//     const details = document.getElementById('complaintDetails');
-//     details.innerHTML = `
-//         <div style="background: var(--lightest-blue); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-//             <p><strong>Student:</strong> ${complaint.student_name} (${complaint.student_id})</p>
-//             <p><strong>Email:</strong> ${complaint.student_email}</p>
-//             <p><strong>Phone:</strong> ${complaint.student_phone}</p>
-//             <p><strong>Identity:</strong> ${complaint.identity_type}</p>
-//             <p><strong>Department:</strong> ${complaint.department}</p>
-//             <p><strong>Category:</strong> ${complaint.category_type}</p>
-//             <p><strong>Type:</strong> ${complaint.complaint_type}</p>
-//             <p><strong>Title:</strong> ${complaint.complaint_title}</p>
-//             <p><strong>Mode:</strong> ${complaint.complaint_mode}</p>
-//             <p><strong>Priority:</strong> ${complaint.priority}</p>
-//             <p><strong>Description:</strong> ${complaint.detailed_description}</p>
-//             ${complaint.proof_file_path ? `<p><strong>Proof:</strong> <a href="${complaint.proof_file_path}" target="_blank">View Document</a></p>` : ''}
-//         </div>
-//     `;
-    
-//     document.getElementById('responseModal').classList.add('active');
-// }
-
-// function closeModal() {
-//     document.getElementById('responseModal').classList.remove('active');
-// }
-
-// document.getElementById('responseForm').addEventListener('submit', async (e) => {
-//     e.preventDefault();
-    
-//     const formData = {
-//         complaintId: document.getElementById('complaintId').value,
-//         status: document.getElementById('status').value,
-//         response: document.getElementById('response').value
-//     };
-    
-//     try {
-//         const response = await fetch('/api/admin/respond-complaint', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(formData)
-//         });
-        
-//         const data = await response.json();
-        
-//         if (data.success) {
-//             alert('Response submitted successfully!');
-//             closeModal();
-//             loadComplaints();
-//         } else {
-//             alert('Failed to submit response: ' + data.message);
-//         }
-//     } catch (error) {
-//         alert('An error occurred: ' + error.message);
-//     }
-// });
-
-// function showAdminSection(section) {
-//     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-//     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    
-//     document.getElementById(`${section}-section`).classList.add('active');
-//     event.target.classList.add('active');
-    
-//     const titles = {
-//         'overview': 'Admin Dashboard',
-//         'students': 'Registered Students',
-//         'complaints': 'All Complaints'
-//     };
-    
-//     document.getElementById('sectionTitle').textContent = titles[section];
-// }
-
-// function filterStudents() {
-//     const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
-//     const rows = document.querySelectorAll('#studentsTableBody tr');
-    
-//     rows.forEach(row => {
-//         const text = row.textContent.toLowerCase();
-//         row.style.display = text.includes(searchTerm) ? '' : 'none';
-//     });
-// }
-
-// function filterComplaints() {
-//     const searchTerm = document.getElementById('complaintSearch').value.toLowerCase();
-//     const statusFilter = document.getElementById('statusFilter').value;
-    
-//     const filtered = allComplaints.filter(complaint => {
-//         const matchesSearch = 
-//             complaint.subject.toLowerCase().includes(searchTerm) ||
-//             complaint.full_name.toLowerCase().includes(searchTerm) ||
-//             complaint.student_id.toLowerCase().includes(searchTerm);
-        
-//         const matchesStatus = !statusFilter || complaint.status === statusFilter;
-        
-//         return matchesSearch && matchesStatus;
-//     });
-    
-//     const container = document.getElementById('complaintsListAdmin');
-//     if (filtered.length === 0) {
-//         container.innerHTML = '<p>No complaints found.</p>';
-//     } else {
-//         container.innerHTML = filtered.map(c => createAdminComplaintCard(c, false)).join('');
-//     }
-// }
-
-// async function logout() {
-//     try {
-//         await fetch('/api/logout', { method: 'POST' });
-//         window.location.href = '/admin-login';
-//     } catch (error) {
-//         console.error('Logout error:', error);
-//     }
-// }
-
-
-
-// Admin Dashboard JavaScript
+// Admin Dashboard JavaScript - Fixed Version
 let allStudents = [];
 let allComplaints = [];
 
+// Section navigation - FIXED
+function showAdminSection(sectionName) {
+    console.log('Showing admin section:', sectionName);
+    
+    // Hide all sections
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Remove active from all nav links
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    // Show selected section
+    const targetSection = document.getElementById(sectionName + '-section');
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+    
+    // Update active nav link
+    event.currentTarget.classList.add('active');
+    
+    // Update title
+    const titles = {
+        'overview': 'Admin Dashboard',
+        'students': 'Registered Students',
+        'complaints': 'All Complaints'
+    };
+    
+    document.getElementById('sectionTitle').textContent = titles[sectionName] || 'Admin Dashboard';
+}
+
 // Load on page load
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Admin dashboard loaded');
     loadStudents();
     loadComplaints();
 });
@@ -290,6 +50,7 @@ async function loadStudents() {
         
         if (data.success) {
             allStudents = data.students;
+            console.log('Students loaded:', allStudents.length);
             updateAdminStats();
             displayStudents();
         }
@@ -306,6 +67,7 @@ async function loadComplaints() {
         
         if (data.success) {
             allComplaints = data.complaints;
+            console.log('Complaints loaded:', allComplaints.length);
             updateAdminStats();
             displayRecentComplaintsAdmin();
             displayAllComplaintsAdmin();
@@ -456,8 +218,12 @@ function createAdminComplaintCard(complaint) {
 
 // Open response modal
 function openResponseModal(complaintId) {
+    console.log('Opening modal for complaint:', complaintId);
     const complaint = allComplaints.find(c => c.id === complaintId);
-    if (!complaint) return;
+    if (!complaint) {
+        console.error('Complaint not found:', complaintId);
+        return;
+    }
     
     document.getElementById('complaintId').value = complaint.id;
     document.getElementById('status').value = complaint.status;
@@ -527,6 +293,8 @@ document.getElementById('responseForm').addEventListener('submit', async (e) => 
         response: document.getElementById('response').value
     };
     
+    console.log('Submitting response:', formData);
+    
     try {
         const response = await fetch('/api/admin/respond-complaint', {
             method: 'POST',
@@ -541,7 +309,7 @@ document.getElementById('responseForm').addEventListener('submit', async (e) => 
         if (data.success) {
             alert('✅ Response submitted successfully!');
             closeModal();
-            loadComplaints();
+            await loadComplaints();
         } else {
             alert('❌ ' + data.message);
         }
@@ -550,23 +318,6 @@ document.getElementById('responseForm').addEventListener('submit', async (e) => 
         alert('❌ An error occurred. Please try again.');
     }
 });
-
-// Section navigation
-function showAdminSection(section) {
-    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-    
-    document.getElementById(`${section}-section`).classList.add('active');
-    event.currentTarget.classList.add('active');
-    
-    const titles = {
-        'overview': 'Admin Dashboard',
-        'students': 'Registered Students',
-        'complaints': 'All Complaints'
-    };
-    
-    document.getElementById('sectionTitle').textContent = titles[section] || 'Admin Dashboard';
-}
 
 // Filter students
 function filterStudents() {
