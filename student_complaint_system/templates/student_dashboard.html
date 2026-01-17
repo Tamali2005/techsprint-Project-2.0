@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen">
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gradient-to-b from-blue-600 to-blue-800 text-white min-h-screen fixed left-0 top-0 shadow-2xl z-40">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-12 h-12">
+                        <svg viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r="95" fill="white"/>
+                            <circle cx="100" cy="100" r="85" fill="#3b82f6"/>
+                            <path d="M 85 100 L 95 110 L 115 85" stroke="white" stroke-width="8" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">Student Portal</h3>
+                        <p class="text-xs text-blue-200">Dashboard</p>
+                    </div>
+                </div>
+
+                <nav class="space-y-2">
+                    <a href="#" onclick="showSection('dashboard')" class="nav-link active flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition group">
+                        <span class="text-xl">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" onclick="showSection('profile')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition group">
+                        <span class="text-xl">👤</span>
+                        <span>My Profile</span>
+                    </a>
+                    <a href="#" onclick="showSection('submit')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition group">
+                        <span class="text-xl">📝</span>
+                        <span>Submit Complaint</span>
+                    </a>
+                    <a href="#" onclick="showSection('complaints')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition group">
+                        <span class="text-xl">📋</span>
+                        <span>My Complaints</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="absolute bottom-6 left-0 right-0 px-6">
+                <button onclick="logout()" class="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+                    <span>🚪</span>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="ml-64 flex-1 p-8">
+            <!-- Header -->
+            <header class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-800" id="sectionTitle">Dashboard</h1>
+                        <p class="text-gray-500 mt-1">Welcome back, <span id="userName" class="font-semibold text-blue-600">Student</span>!</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                            S
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <!-- Stats Grid -->
+                <div class="grid md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl">
+                                📝
+                            </div>
+                            <span class="text-3xl font-bold text-blue-600" id="totalComplaints">0</span>
+                        </div>
+                        <p class="text-gray-600 font-medium">Total Complaints</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center text-2xl">
+                                ⏳
+                            </div>
+                            <span class="text-3xl font-bold text-yellow-600" id="pendingComplaints">0</span>
+                        </div>
+                        <p class="text-gray-600 font-medium">Pending</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl">
+                                ✅
+                            </div>
+                            <span class="text-3xl font-bold text-green-600" id="resolvedComplaints">0</span>
+                        </div>
+                        <p class="text-gray-600 font-medium">Resolved</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl">
+                                🔄
+                            </div>
+                            <span class="text-3xl font-bold text-purple-600" id="inProgressComplaints">0</span>
+                        </div>
+                        <p class="text-gray-600 font-medium">In Progress</p>
+                    </div>
+                </div>
+
+                <!-- Recent Complaints -->
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Recent Complaints</h2>
+                    <div id="recentComplaintsList" class="space-y-4">
+                        <p class="text-gray-500">Loading...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile-section" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">My Profile</h2>
+                    <div id="profileInfo" class="space-y-4">
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Submit Complaint Section -->
+            <section id="submit-section" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Submit New Complaint</h2>
+                    <form id="complaintForm" class="space-y-6">
+                        <!-- User Info (Auto-filled, read-only) -->
+                        <div class="bg-blue-50 rounded-xl p-6 space-y-4">
+                            <h3 class="font-bold text-gray-700 flex items-center gap-2">
+                                <span class="w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center">1</span>
+                                User Information (Auto-filled)
+                            </h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <input type="text" id="regNumber" readonly class="px-4 py-3 bg-white border-2 border-gray-200 rounded-lg">
+                                <input type="text" id="userName" readonly class="px-4 py-3 bg-white border-2 border-gray-200 rounded-lg">
+                                <input type="text" id="userEmail" readonly class="px-4 py-3 bg-white border-2 border-gray-200 rounded-lg">
+                                <input type="text" id="userPhone" readonly class="px-4 py-3 bg-white border-2 border-gray-200 rounded-lg">
+                                <input type="text" id="userDepartment" readonly class="px-4 py-3 bg-white border-2 border-gray-200 rounded-lg col-span-2">
+                                <input type="text" id="userIdentity" readonly class="px-4 py-3 bg-white border-2 border-gray-200 rounded-lg">
+                            </div>
+                        </div>
+
+                        <!-- Complaint Category -->
+                        <div class="space-y-4">
+                            <h3 class="font-bold text-gray-700 flex items-center gap-2">
+                                <span class="w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center">2</span>
+                                Complaint Category
+                            </h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <select id="categoryType" required onchange="updateComplaintTypes()" class="px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none">
+                                    <option value="">Select Category</option>
+                                    <option value="Infrastructure & Facilities">Infrastructure & Facilities</option>
+                                    <option value="Administrative">Administrative</option>
+                                    <option value="Campus Services">Campus Services</option>
+                                </select>
+                                <select id="complaintType" required class="px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none">
+                                    <option value="">Select Type</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Complaint Details -->
+                        <div class="space-y-4">
+                            <h3 class="font-bold text-gray-700 flex items-center gap-2">
+                                <span class="w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center">3</span>
+                                Complaint Details
+                            </h3>
+                            <input type="text" id="complaintTitle" required placeholder="Brief title" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none">
+                            <textarea id="detailedDescription" required rows="5" placeholder="Detailed description..." class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none"></textarea>
+                            <input type="file" id="proofUpload" accept="image/*,.pdf,.doc,.docx" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg">
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <select id="complaintMode" required class="px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none">
+                                    <option value="Online">Online</option>
+                                    <option value="In-person">In-person</option>
+                                </select>
+                                <select id="priority" required class="px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none">
+                                    <option value="Low">Low</option>
+                                    <option value="Medium" selected>Medium</option>
+                                    <option value="High">High</option>
+                                    <option value="Urgent">Urgent</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 rounded-xl font-bold transition-all transform hover:scale-105">
+                            Submit Complaint
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- My Complaints Section -->
+            <section id="complaints-section" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">My Complaints</h2>
+                    <div id="complaintsList" class="space-y-4">
+                        <p class="text-gray-500">Loading...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <style>
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid white;
+        }
+        .content-section {
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
+    <script src="{{ url_for('static', filename='js/student-dashboard.js') }}"></script>
+</body>
+</html>

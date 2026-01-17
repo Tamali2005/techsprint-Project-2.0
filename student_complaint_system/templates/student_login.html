@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - Welcome Back</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a',
+                        secondary: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-white min-h-screen flex items-center justify-center p-6">
+    <!-- Background Decoration -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-20 -left-20 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div class="absolute -bottom-20 right-20 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+
+    <div class="relative w-full max-w-md">
+        <!-- Back Button -->
+        <a href="/" class="inline-flex items-center text-gray-600 hover:text-blue-600 mb-6 transition-colors group">
+            <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Back to Home
+        </a>
+
+        <!-- Login Card -->
+        <div class="bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden border border-white/20">
+            <!-- Header with Logo -->
+            <div class="bg-gradient-to-br from-blue-600 via-blue-700 to-purple-600 p-8 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-white opacity-5">
+                    <div class="absolute inset-0" style="background-image: radial-gradient(circle, white 1px, transparent 1px); background-size: 30px 30px;"></div>
+                </div>
+                <div class="relative">
+                    <div class="w-24 h-24 bg-white rounded-full mx-auto mb-4 flex items-center justify-center shadow-2xl transform hover:scale-110 hover:rotate-12 transition-all">
+                        <svg viewBox="0 0 200 200" class="w-16 h-16">
+                            <defs>
+                                <linearGradient id="loginGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#3b82f6"/>
+                                    <stop offset="100%" style="stop-color:#1e3a8a"/>
+                                </linearGradient>
+                            </defs>
+                            <circle cx="100" cy="100" r="95" fill="url(#loginGrad)"/>
+                            <path d="M 100 30 L 140 50 L 140 100 Q 140 150 100 170 Q 60 150 60 100 L 60 50 Z" fill="white" opacity="0.9"/>
+                            <circle cx="100" cy="100" r="30" fill="#3b82f6"/>
+                            <path d="M 85 100 L 95 110 L 115 85" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white mb-2">Welcome Back!</h2>
+                    <p class="text-blue-100">Login to your student account</p>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="p-8 space-y-6">
+                <form id="loginForm" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Student ID
+                        </label>
+                        <div class="relative group">
+                            <input type="text" id="studentId" required 
+                                   class="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none"
+                                   placeholder="Enter your student ID">
+                            <div class="absolute left-4 top-3.5 text-2xl group-focus-within:scale-110 transition-transform">
+                                🎓
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Password
+                        </label>
+                        <div class="relative group">
+                            <input type="password" id="password" required 
+                                   class="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none"
+                                   placeholder="Enter your password">
+                            <div class="absolute left-4 top-3.5 text-2xl group-focus-within:scale-110 transition-transform">
+                                🔒
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" 
+                            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-2xl flex items-center justify-center gap-2 group">
+                        <span>Login to Dashboard</span>
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                        </svg>
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-200"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-white text-gray-500 font-medium">Or continue with</span>
+                    </div>
+                </div>
+
+                <!-- Google Login -->
+                <div class="space-y-3">
+                    <div id="g_id_onload"
+                         data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+                         data-callback="handleGoogleLogin">
+                    </div>
+                    <div class="g_id_signin w-full" 
+                         data-type="standard"
+                         data-size="large"
+                         data-theme="outline"
+                         data-text="sign_in_with"
+                         data-shape="rectangular"
+                         data-logo_alignment="left"
+                         data-width="100%">
+                    </div>
+                </div>
+
+                <!-- Register Link -->
+                <div class="text-center pt-4 border-t border-gray-100">
+                    <p class="text-gray-600">
+                        Don't have an account? 
+                        <a href="/student-register" class="text-blue-600 font-semibold hover:text-blue-700 hover:underline transition-colors">
+                            Register here
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Note -->
+        <div class="mt-6 text-center text-sm text-gray-500">
+            <p>🔒 Your data is secure and encrypted</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

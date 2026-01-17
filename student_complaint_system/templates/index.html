@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Complaint Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a',
+                        secondary: '#3b82f6',
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(100px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <!-- Navbar -->
+    <nav class="bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-blue-100">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3 group">
+                    <div class="w-14 h-14 transform transition-transform group-hover:scale-110 group-hover:rotate-6">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#1e3a8a;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="100" cy="100" r="95" fill="url(#grad1)"/>
+                            <path d="M 100 30 L 140 50 L 140 100 Q 140 150 100 170 Q 60 150 60 100 L 60 50 Z" fill="white" opacity="0.9"/>
+                            <circle cx="100" cy="100" r="30" fill="#3b82f6"/>
+                            <path d="M 85 100 L 95 110 L 115 85" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                            Student Portal
+                        </span>
+                        <p class="text-xs text-gray-500">Complaint Management</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-1">
+                    <a href="/" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all font-medium">Home</a>
+                    <a href="/student-login" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all font-medium">Student</a>
+                    <a href="/admin-login" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all font-medium">Admin</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container mx-auto px-6 py-20 animate-fade-in">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8 animate-slide-up">
+                <div class="inline-block">
+                    <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold">
+                        🎓 Education Platform
+                    </span>
+                </div>
+                <h1 class="text-5xl md:text-6xl font-bold leading-tight">
+                    <span class="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                        Student Complaint
+                    </span>
+                    <br/>
+                    <span class="text-gray-800">Management System</span>
+                </h1>
+                <p class="text-xl text-gray-600 leading-relaxed">
+                    Your voice matters. Submit, track, and manage your complaints efficiently with our modern platform.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="/student-register" class="group relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl">
+                        <span class="flex items-center gap-2">
+                            Register Now
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
+                        </span>
+                    </a>
+                    <a href="/student-login" class="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-xl font-semibold transition-all transform hover:scale-105">
+                        Student Login
+                    </a>
+                </div>
+                
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-6 pt-8">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600">500+</div>
+                        <div class="text-sm text-gray-600">Students</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600">98%</div>
+                        <div class="text-sm text-gray-600">Resolved</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600">24h</div>
+                        <div class="text-sm text-gray-600">Response</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Illustration -->
+            <div class="hidden md:block animate-float">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 rounded-3xl blur-3xl opacity-20 animate-pulse"></div>
+                    <div class="relative bg-gradient-to-br from-blue-500 to-blue-700 rounded-3xl p-12 shadow-2xl transform hover:rotate-2 transition-transform">
+                        <svg viewBox="0 0 500 500" class="w-full">
+                            <rect x="100" y="100" width="300" height="320" rx="20" fill="white" opacity="0.1"/>
+                            <rect x="130" y="140" width="240" height="20" rx="10" fill="white"/>
+                            <rect x="130" y="180" width="240" height="20" rx="10" fill="white"/>
+                            <rect x="130" y="220" width="240" height="20" rx="10" fill="white"/>
+                            <rect x="130" y="260" width="180" height="20" rx="10" fill="white" opacity="0.7"/>
+                            <circle cx="250" cy="340" r="40" fill="white"/>
+                            <path d="M 235 340 L 245 350 L 265 325" stroke="#3b82f6" stroke-width="6" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="bg-gradient-to-b from-white to-blue-50 py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 space-y-4">
+                <h2 class="text-4xl md:text-5xl font-bold">
+                    <span class="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                        Why Choose Us?
+                    </span>
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Experience the best complaint management system designed for students
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1 -->
+                <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="text-4xl">📝</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Easy Submission</h3>
+                    <p class="text-gray-600 leading-relaxed">Submit complaints quickly through our intuitive interface</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="text-4xl">🔍</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Real-time Tracking</h3>
+                    <p class="text-gray-600 leading-relaxed">Monitor your complaint status with live updates</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="text-4xl">⚡</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Quick Response</h3>
+                    <p class="text-gray-600 leading-relaxed">Get timely responses from administrators</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-100">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="text-4xl">🔐</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Secure & Private</h3>
+                    <p class="text-gray-600 leading-relaxed">Your data is protected with bank-level security</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                Ready to Get Started?
+            </h2>
+            <p class="text-blue-100 text-xl mb-8 max-w-2xl mx-auto">
+                Join thousands of students using our platform to make their voices heard
+            </p>
+            <a href="/student-register" class="inline-block bg-white text-blue-600 px-10 py-4 rounded-xl font-bold text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-2xl">
+                Create Free Account
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Student Portal</h3>
+                    <p class="text-sm leading-relaxed">Making education better, one complaint at a time.</p>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Quick Links</h3>
+                    <div class="space-y-2">
+                        <a href="/student-login" class="block hover:text-blue-400 transition">Student Login</a>
+                        <a href="/admin-login" class="block hover:text-blue-400 transition">Admin Login</a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Contact</h3>
+                    <p class="text-sm">Email: support@studentportal.com</p>
+                    <p class="text-sm">Phone: +1 234 567 8900</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-sm">
+                <p>&copy; 2026 Student Complaint Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
