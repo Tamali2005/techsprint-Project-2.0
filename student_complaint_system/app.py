@@ -9,6 +9,7 @@ from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 import secrets
 from werkzeug.utils import secure_filename
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)
@@ -24,7 +25,14 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = MAX_FILE_SIZE
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:UmxpBtsSoGDSBBCsWkewjDWLrlrnEaPl@mainline.proxy.rlwy.net:54444/railway' 
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    f"mysql+pymysql://{os.getenv('MYSQLUSER')}:"
+    f"{os.getenv('MYSQLPASSWORD')}@"
+    f"{os.getenv('MYSQLHOST')}:"
+    f"{os.getenv('MYSQLPORT')}/"
+    f"{os.getenv('MYSQLDATABASE')}"
+)
+db = SQLAlchemy(app)
 
 # Google OAuth Configuration
 GOOGLE_CLIENT_ID = "544206990021-o4ve57tle2tu6ag8s47dta87r547q4ir.apps.googleusercontent.com"  # Replace with your actual Client ID
