@@ -37,13 +37,22 @@ db = SQLAlchemy(app)
 # Google OAuth Configuration
 GOOGLE_CLIENT_ID = "544206990021-o4ve57tle2tu6ag8s47dta87r547q4ir.apps.googleusercontent.com"  # Replace with your actual Client ID
 
-# Database Configuration
+# # Database Configuration
+# DB_CONFIG = {
+#     'host': 'localhost',
+#     'user': 'root',  # Change to your MySQL username
+#     'password': 'Tamali@2005',  # Change to your MySQL password
+#     'database': 'student_complaints'
+# }
+
 DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',  # Change to your MySQL username
-    'password': 'Tamali@2005',  # Change to your MySQL password
-    'database': 'student_complaints'
+    'host': os.getenv("MYSQLHOST"),
+    'user': os.getenv("MYSQLUSER"),
+    'password': os.getenv("MYSQLPASSWORD"),
+    'database': os.getenv("MYSQLDATABASE"),
+    'port': int(os.getenv("MYSQLPORT"))
 }
+conn = mysql.connector.connect(**DB_CONFIG)
 
 # Initialize Database
 def init_db():
